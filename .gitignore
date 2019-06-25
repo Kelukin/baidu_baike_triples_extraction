@@ -1,2 +1,5 @@
 *.txt
 cutWords.py
+__pycache__/
+__pycache__/.*
+__pycache__/parseTreeNode.cpython-36.pyc

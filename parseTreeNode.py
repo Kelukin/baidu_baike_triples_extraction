@@ -22,14 +22,15 @@ class TreeNode:
         self.relation_to_fa = 0
         self.content = ""
         self.tagging = ""
-        self.son = []
+        self.sons = []
         if sentence_word != None:
+            self.id= sentence_word.ID
             self.tagging = sentence_word.POSTAG
             self.content= sentence_word.LEMMA
             self.relation_to_fa = relationMap[sentence_word.DEPREL]
             self.fa_id = sentence_word.HEAD.ID
     def add_son(self, sonNode):
-        self.son.append(sonNode)
+        self.sons.append(sonNode)
         sonNode.fa = self
     def __str__(self):
         return self.content + self.tagging
