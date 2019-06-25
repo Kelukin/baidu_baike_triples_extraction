@@ -22,6 +22,7 @@ def baike_sample(num, outputFile = ""):
                 sample_index += 1
             no += 1
         output.close()
+    return outputFile
 
 if __name__ == "__main__":
     baike_sample(5000)

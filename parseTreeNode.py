@@ -15,15 +15,21 @@ relationMap = { #中文表述的关系到实际三元组当中的映射关系
     '标点符号':14,
     '核心关系':15
 }
-class treeNode:
+class TreeNode:
     def __init__(self, sentence_word=None):
         self.fa = None
         self.fa_id = 0
         self.relation_to_fa = 0
         self.content = ""
         self.tagging = ""
+        self.son = []
         if sentence_word != None:
-            self.tagging = sentence_word.POST_TAG
-            self.content = sentence_word.LEMMA
+            self.tagging = sentence_word.POSTAG
+            self.content= sentence_word.LEMMA
             self.relation_to_fa = relationMap[sentence_word.DEPREL]
             self.fa_id = sentence_word.HEAD.ID
+    def add_son(self, sonNode):
+        self.son.append(sonNode)
+        sonNode.fa = self
+    def __str__(self):
+        return self.content + self.tagging
