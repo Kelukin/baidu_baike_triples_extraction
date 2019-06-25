@@ -68,5 +68,9 @@ class Tree:
                     resultList.append(result)
             
         return resultList
+    def extractByModule(self):
+        path_to_subject = []
+        path_to_object = []
+        
 
                 
