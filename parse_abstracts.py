@@ -9,6 +9,10 @@ class BaiduCard: # 处理的范围当中不含有特殊的字符
         tmp_line[2]=tmp_line[2][:-2].replace(self.title,"我") # 把所有的当前词条的名字更改为我
         self.sentences = self.splitSentences(tmp_line[2])
         print(self.sentences)
+        for i,text in enumerate(self.sentences):
+            if "我" not in text:
+                self.sentences[i] = "我，"+text
+        print(self.sentences)
         #tmp_line[2][:-2].replace(self.title,"我").split("。") #需要实现将全部的感叹号、问号及分号转换为句号
         self.segments = []
         self.size = len(self.sentences)

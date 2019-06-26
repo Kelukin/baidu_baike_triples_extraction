@@ -23,6 +23,7 @@ class TreeNode:
         self.content = ""
         self.tagging = ""
         self.sons = []
+        self.depth = 1 # 每个点的深度
         if sentence_word != None:
             self.id= sentence_word.ID
             self.tagging = sentence_word.POSTAG
