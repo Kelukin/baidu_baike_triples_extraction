@@ -7,6 +7,7 @@ class BaiduCard: # 处理的范围当中不含有特殊的字符
         tmp_line = line.split("\t")
         self.title = tmp_line[0]
         tmp_line[2]=tmp_line[2][:-2].replace(self.title,"我") # 把所有的当前词条的名字更改为我
+        tmp_line[2] = tmp_line[2].replace("|||","")
         self.sentences = self.splitSentences(tmp_line[2])
         print(self.sentences)
         for i,text in enumerate(self.sentences):
