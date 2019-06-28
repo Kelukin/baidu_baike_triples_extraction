@@ -3,14 +3,16 @@ from pyhanlp import *
 from triple import Triple
 from relationMap import relationMap
 
+
 class Template:
     def __init__(self, name, text, entity, seg, mid):
         self.template_name = name
-        s = text.repalce(entity, "我")
+        text = text.replace(entity, "我")
         self.tree = Tree(text,entity)
         self.entity_path = self.__calculate_path("我") #路径从下到上
         self.seg_path = self.__calculate_path(seg)
         self.mid_path = self.__calculate_path(mid, True)
+        self.mid = mid
         self.usable = True
         if(self.entity_path == None or self.seg_path == None or self.mid_path == None):
             self.usable = False
@@ -110,7 +112,7 @@ class Tree:
                         objectsList.append(self.get_sub_obj_text(son_s_son))
         tmp_objects.append((node.content, objectsList))
 
-    def extractTriples(self):
+    def extractTriples(self, template_set = None):
         tmp_objects = []
         subjects = []
         resultList = []
@@ -132,11 +134,19 @@ class Tree:
                     for y in obj_lst:
                         tmpTriple.obj = x
                         tmpTriple.value = y
+                        #类型
+                        if tmpTriple.relation == "是" and tmpTriple.value[-2::] == '之一':
+                            tmpTriple.relation = "类型"
+                            tmpTriple.value = tmpTriple.value[:-2:]
                         result = str(tmpTriple)
+                        
                         result = result.replace("我", self.subject)
                         result = result.replace("它", self.subject)
+
                         resultList.append(result)
-            
+        if template_set != None:
+            for template in template_set:
+                resultList += self.extract_by_template(template)
         return resultList
 
 
@@ -156,7 +166,7 @@ class Tree:
                 found_entity =True
             if verify_path(ele, template.seg_path):
                 objects.append(ele.content)
-            if found_mid == False and verify_path(ele, template.mid_path):
+            if found_mid == False and ele.content == template.mid and verify_path(ele, template.mid_path):
                 found_mid = True
         if found_entity and found_mid:
             for obj in objects:
@@ -173,3 +183,5 @@ def verify_path(node:TreeNode, path:list):
         node = node.fa
     return True
 
+def dic_to_template(dic: dict):
+    return Template(dic["name"],dic["text"], dic["entity"], dic["seg"],dic["mid"])
